@@ -154,5 +154,7 @@ if resultado:
                 print("Bowser te atrapa con la princesa")
             else:
                 print("La princesa es salvada")
+        else:
+            print("Bowser te atrapa con la princesa")
 else:
     print("Bowser se lleva a la princesa")
