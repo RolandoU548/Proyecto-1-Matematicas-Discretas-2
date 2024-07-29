@@ -58,7 +58,7 @@ class Graph:
 
     def dijkstra(self, inicio, final):
         actual = inicio
-        noVisitados = graph.nodes
+        noVisitados = list(graph.nodes)
         padres = {}
         visitados = {}
         distancias = {actual: 0}
@@ -90,7 +90,6 @@ class Graph:
         while actual != None:
             camino.insert(0, actual)
             actual = padres[actual]
-
         return [camino, distancias[final]]
 
 
@@ -140,19 +139,13 @@ resultado = graph.dijkstra(str(C), str(P))
 camino_mas_corto = resultado[0]
 tiempo_minimo = resultado[1]
 if tiempo_minimo > int(T):
-    print(
-        "Bowser se lleva a la princesa (Cuando Mario no logra llegar a la base donde se encuentra la princesa antes que acabe el tiempo)"
-    )
+    print("Bowser se lleva a la princesa")
+else:
+    for i in range(len(camino_mas_corto) - 1):
+        graph.remove_edge(camino_mas_corto[i], camino_mas_corto[i + 1])
 
-for i in range(len(camino_mas_corto) - 1):
-    graph.remove_edge(camino_mas_corto[i], camino_mas_corto[i + 1])
-
-# tiempo_minimo += graph.dijkstra(str(P), str(C))[1]
-# if tiempo_minimo > int(T):
-#     print(
-#         "Bowser te atrapa con la princesa (Cuando Mario no logra volver al castillo con la princesa antes que acabe el tiempo o ya no existe un camino para volver"
-#     )
-# else:
-#     print(
-#         "La princesa es salvada (Cuando Mario logra rescatar y volver con la princesa al castillo antes que acabe el tiempo)"
-#     )
+    tiempo_minimo += graph.dijkstra(str(P), str(C))[1]
+    if tiempo_minimo > int(T):
+        print("Bowser te atrapa con la princesa")
+    else:
+        print("La princesa es salvada")
