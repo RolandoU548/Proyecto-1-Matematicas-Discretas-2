@@ -57,8 +57,10 @@ class Graph:
         return string
 
     def dijkstra(self, inicio, final):
+        if not inicio in self.nodes or not final in self.nodes:
+            return False
         actual = inicio
-        noVisitados = list(graph.nodes)
+        noVisitados = list(self.nodes)
         padres = {}
         visitados = {}
         distancias = {actual: 0}
@@ -112,7 +114,7 @@ class Edge:
         return f"{self.node1}->{self.node2} {self.time}"
 
 
-graph = Graph()
+graph1 = Graph()
 
 # Primera Linea
 entrada = input().split()
@@ -133,19 +135,24 @@ for i in range(int(M)):
     U = int(entrada[0])
     V = int(entrada[1])
     D = int(entrada[2])
-    graph.add_edge(Edge(str(U), str(V), D))
+    graph1.add_edge(Edge(str(U), str(V), D))
 
-resultado = graph.dijkstra(str(C), str(P))
-camino_mas_corto = resultado[0]
-tiempo_minimo = resultado[1]
-if tiempo_minimo > int(T):
-    print("Bowser se lleva a la princesa")
-else:
-    for i in range(len(camino_mas_corto) - 1):
-        graph.remove_edge(camino_mas_corto[i], camino_mas_corto[i + 1])
-
-    tiempo_minimo += graph.dijkstra(str(P), str(C))[1]
+resultado = graph1.dijkstra(str(C), str(P))
+if resultado:
+    camino_mas_corto = resultado[0]
+    tiempo_minimo = resultado[1]
     if tiempo_minimo > int(T):
-        print("Bowser te atrapa con la princesa")
+        print("Bowser se lleva a la princesa")
     else:
-        print("La princesa es salvada")
+        for i in range(len(camino_mas_corto) - 1):
+            graph1.remove_edge(camino_mas_corto[i], camino_mas_corto[i + 1])
+
+        resultado = graph1.dijkstra(str(C), str(P))
+        if resultado:
+            tiempo_minimo += resultado[1]
+            if tiempo_minimo > int(T):
+                print("Bowser te atrapa con la princesa")
+            else:
+                print("La princesa es salvada")
+else:
+    print("Bowser se lleva a la princesa")
